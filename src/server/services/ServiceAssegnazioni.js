@@ -166,7 +166,22 @@ AND assegnazioni.dataArrivo <= ?
     const db = new DbConnection2(this.dbConfig);
     try {
       await db.connect();
-      const sql = 'SELECT * FROM assegnazioni';
+   //   const sql = 'SELECT * FROM assegnazioni';
+      const sql = `SELECT assegnazioni.*, 
+      autista.nome AS nomeAutista, 
+      autista.cognome AS cognomeAutista,
+      autista.telefono AS telefono,
+      autista.email AS email,
+      veicoli.modello AS modelloVeicolo, 
+      veicoli.targa AS targaVeicolo,
+      corse.indirizzoPartenza, 
+      corse.indirizzoArrivo, 
+      corse.descrizione AS descrizioneCorsa
+FROM assegnazioni
+LEFT JOIN autista ON assegnazioni.idAutista = autista.id
+LEFT JOIN veicoli ON assegnazioni.idMezzo = veicoli.id
+LEFT JOIN corse ON assegnazioni.idTratta = corse.id`;
+
       const result = await db.query(sql);
       return result;
     } catch (error) {

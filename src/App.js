@@ -5,16 +5,48 @@ import Dashboard from './pages/Dashboard';
 import Veicoli from './pages/Veicoli';
 import Assegnazioni from './pages/Assegnazioni';
 import Autisti from './pages/Autisti';
+import Login from './pages/Login';
+import ProtectedRoute from './components/ProtectedRoute'; // Importa la rotta protetta
 
 function App() {
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/veicoli" element={<Veicoli />} />
-          <Route path="/assegnazioni" element={<Assegnazioni />} />
-          <Route path="/autisti" element={<Autisti />} />
+          <Route path="/" element={<Login />} />
+          {/* Rotte protette */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/veicoli"
+            element={
+              <ProtectedRoute>
+                <Veicoli />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/assegnazioni"
+            element={
+              <ProtectedRoute>
+                <Assegnazioni />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/autisti"
+            element={
+              <ProtectedRoute>
+                <Autisti />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>
