@@ -1,30 +1,40 @@
-// dbConnection2.js
-const mysql = require('mysql2/promise'); // Assicurati di usare la versione basata su Promise
+const { Pool } = require('pg');
 
 class DbConnection2 {
     constructor(config) {
-        this.config = config;
-        this.connection = null;
+        // Aggiungi l'opzione SSL alla configurazione per PostgreSQL
+        this.config = {
+            ...config,
+            ssl: {
+                rejectUnauthorized: false, // Permette la connessione SSL anche senza certificato verificato
+            }
+        };
+        this.pool = new Pool(this.config); // Usa il pool di connessioni di PostgreSQL
     }
 
     async connect() {
-        if (!this.connection) {
-            this.connection = await mysql.createConnection(this.config);
-        }
+        // Pool gestisce automaticamente le connessioni, non c'è bisogno di creare manualmente una connessione
+        this.connection = await this.pool.connect();
     }
 
     async query(sql, params) {
         if (!this.connection) {
             throw new Error("Connection not established.");
         }
-        const [results] = await this.connection.execute(sql, params);
-        return results;
+
+        try {
+            const result = await this.connection.query(sql, params);
+            return result.rows; // Restituisce solo le righe del risultato
+        } catch (error) {
+            console.error('Errore durante l\'esecuzione della query:', error);
+            throw error;
+        }
     }
 
     async close() {
         if (this.connection) {
-            await this.connection.end();
-            this.connection = null; // Rendi nullo per evitare problemi futuri
+            this.connection.release(); // Rilascia la connessione al pool
+            this.connection = null;
         }
     }
 }

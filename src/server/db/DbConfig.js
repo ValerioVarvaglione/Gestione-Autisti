@@ -1,9 +1,9 @@
 // DbConfig.js
 class DbConfig {
     constructor() {
-        this.host = 'localhost';
+        this.host = 'dpg-cs9685dds78s73c9brv0-a.frankfurt-postgres.render.com';
         this.user = 'root';
-        this.password = '1234';
+        this.password = 'w7wlI23f6tyqglgrxtUDPT1NFdIr2ooW';
         this.database = 'gestioneautisti';
     }
 

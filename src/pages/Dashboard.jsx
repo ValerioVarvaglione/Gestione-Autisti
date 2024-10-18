@@ -51,8 +51,8 @@ function Dashboard() {
         {filteredAssegnazioni.map((assegnazione) => (
           <div key={assegnazione.id} className="p-4 border rounded-lg">
             <h3 className="text-lg font-bold">{assegnazione.bus}</h3>
-            <p>Autista: {assegnazione.nomeAutista} {assegnazione.cognomeAutista}</p>
-            <p>Data: {assegnazione.dataPartenza}</p>
+            <p>Autista: {assegnazione.nomeautista} {assegnazione.cognomeautista}</p>
+            <p>Data: {assegnazione.datapartenza}</p>
             <p>Telefono: {assegnazione.telefono}</p>
             <button className="mt-2 text-blue-500">Visualizza Dettagli</button>
           </div>
